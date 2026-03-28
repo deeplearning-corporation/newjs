@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="New.js 官方文档 - 完整的API参考和使用指南，包含路由、中间件、支付宝支付、WebSocket等">
+    <title>New.js 文档 - 完整的后端框架指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #667eea;
+        }
+
+        .docs-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+
+        /* 文档布局 */
+        .docs-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 80px auto 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e9ecef;
+            position: fixed;
+            top: 80px;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        /* 主内容 */
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            max-width: calc(100% - 280px);
+        }
+
+        .doc-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .doc-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .doc-section h2 {
+            font-size: 1.8rem;
+            margin: 1.5rem 0 1rem;
+            color: #667eea;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .doc-section h3 {
+            font-size: 1.3rem;
+            margin: 1rem 0 0.5rem;
+            color: #555;
+        }
+
+        .doc-section p {
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: #666;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+
+        pre {
+            padding: 1.5rem;
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d4d4d4;
+        }
+
+        .inline-code {
+            background: #f4f4f4;
+            color: #e83e8c;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .tip-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid #e9ecef;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: #999;
+            padding: 2rem 0;
+            text-align: center;
+            margin-left: 280px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+            .footer {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">New.js</a>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/docs.html" class="active">文档</a>
+                <a href="/download.html">下载</a>
+                <a href="https://github.com/deeplearning-corporation/node-js" target="_blank">GitHub</a>
+                <a href="/download.html" class="docs-btn">开始使用</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">快速开始</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#introduction" class="active">介绍</a></li>
+                    <li><a href="#installation">安装</a></li>
+                    <li><a href="#quick-start">快速开始</a></li>
+                    <li><a href="#first-app">第一个应用</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">核心概念</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#routing">路由</a></li>
+                    <li><a href="#middleware">中间件</a></li>
+                    <li><a href="#request-response">请求和响应</a></li>
+                    <li><a href="#static-files">静态文件</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">高级功能</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#payment">支付宝支付</a></li>
+                    <li><a href="#websocket">WebSocket</a></li>
+                    <li><a href="#database">数据库操作</a></li>
+                    <li><a href="#session">会话管理</a></li>
+                    <li><a href="#cache">缓存系统</a></li>
+                    <li><a href="#queue">队列系统</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">API参考</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#app-api">Application API</a></li>
+                    <li><a href="#request-api">Request API</a></li>
+                    <li><a href="#response-api">Response API</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">部署指南</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#deployment">生产环境部署</a></li>
+                    <li><a href="#cluster">集群模式</a></li>
+                    <li><a href="#performance">性能优化</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div id="introduction" class="doc-section">
+                <h1>🚀 介绍</h1>
+                <p>New.js 是一个现代化、高性能的 Node.js 后端框架，专为构建高效、可扩展的 Web 应用而设计。它提供了丰富的功能和简洁的 API，让开发者能够快速构建生产级别的应用。</p>
+                
+                <h3>✨ 核心特性</h3>
+                <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                    <li>⚡ <strong>高性能</strong> - 基于原生 Node.js，支持集群模式</li>
+                    <li>💰 <strong>支付宝支付</strong> - 完整集成支付宝支付接口</li>
+                    <li>🔄 <strong>页面跳转</strong> - 支持服务端重定向和客户端路由</li>
+                    <li>💾 <strong>数据库支持</strong> - 内置 SQLite，支持 MySQL、PostgreSQL</li>
+                    <li>🔌 <strong>WebSocket</strong> - 原生 WebSocket 支持，实时通信</li>
+                    <li>🛡️ <strong>安全防护</strong> - CSRF、XSS、速率限制等安全机制</li>
+                    <li>📝 <strong>.njs 文件支持</strong> - 专用后端文件格式</li>
+                </ul>
+            </div>
+
+            <div id="installation" class="doc-section">
+                <h2>📦 安装</h2>
+                <h3>Windows 安装</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <pre><code># 下载安装包
+# 访问 https://github.com/deeplearning-corporation/node-js/releases
+# 下载 New.js-Setup-2.0.0.exe
+
+# 运行安装程序
+# 按照向导完成安装
+
+# 验证安装
+newjs --version</code></pre>
+                </div>
+
+                <h3>Linux 安装</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <pre><code># 下载并安装
+wget https://github.com/deeplearning-corporation/node-js/releases/download/v2.0.0/New.js-2.0.0.tar.gz
+tar -xzf New.js-2.0.0.tar.gz
+cd New.js-2.0.0
+sudo ./install.sh
+
+# 验证安装
+newjs --version</code></pre>
+                </div>
+
+                <h3>使用 npm 安装</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <pre><code># 全局安装
+npm install -g newjs
+
+# 验证安装
+newjs --version</code></pre>
+                </div>
+            </div>
+
+            <div id="quick-start" class="doc-section">
+                <h2>🚀 快速开始</h2>
+                <h3>创建新项目</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <pre><code># 创建项目
+newjs create my-app
+
+# 进入项目目录
+cd my-app
+
+# 安装依赖
+npm install
+
+# 启动应用
+newjs run</code></pre>
+                </div>
+                <div class="tip-box">
+                    💡 <strong>提示</strong>：应用将在 http://localhost:3000 启动
+                </div>
+            </div>
+
+            <div id="first-app" class="doc-section">
+                <h2>📝 第一个应用</h2>
+                <p>创建一个简单的 Hello World 应用：</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                    </div>
+                    <pre><code>// app/main.njs
+const New = require('newjs');
+
+const app = new New();
+
+// 首页路由
+app.get('/', (req, res) => {
+    res.send('Hello New.js!');
+});
+
+// API路由
+app.get('/api/hello', (req, res) => {
+    res.json({
+        message: 'Hello from New.js!',
+        timestamp: Date.now()
+    });
+});
+
+// 启动服务器
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="routing" class="doc-section">
+                <h2>🛣️ 路由</h2>
+                <p>New.js 提供了灵活的路由系统，支持 GET、POST、PUT、DELETE 等 HTTP 方法。</p>
+                
+                <h3>基本路由</h3>
+                <div class="code-block">
+                    <pre><code>// GET 请求
+app.get('/users', (req, res) => {
+    res.json({ users: [] });
+});
+
+// POST 请求
+app.post('/users', (req, res) => {
+    const user = req.body;
+    res.json({ user, created: true });
+});
+
+// PUT 请求
+app.put('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const data = req.body;
+    res.json({ id, data });
+});
+
+// DELETE 请求
+app.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    res.json({ deleted: true });
+});</code></pre>
+                </div>
+
+                <h3>路由参数</h3>
+                <div class="code-block">
+                    <pre><code>// 参数路由
+app.get('/users/:userId/posts/:postId', (req, res) => {
+    const { userId, postId } = req.params;
+    res.json({ userId, postId });
+});</code></pre>
+                </div>
+
+                <h3>路由分组</h3>
+                <div class="code-block">
+                    <pre><code>app.group('/api', (router) => {
+    router.get('/users', (req, res) => {
+        res.json({ users: [] });
+    });
+    
+    router.post('/users', (req, res) => {
+        res.json({ created: true });
+    });
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="middleware" class="doc-section">
+                <h2>🔧 中间件</h2>
+                <p>中间件函数可以访问请求对象和响应对象，并可以修改它们或终止请求。</p>
+                
+                <h3>使用中间件</h3>
+                <div class="code-block">
+                    <pre><code>// 日志中间件
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
+// 认证中间件
+app.use((req, res, next) => {
+    const token = req.headers.authorization;
+    if (!token) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+    next();
+});</code></pre>
+                </div>
+
+                <h3>路由级中间件</h3>
+                <div class="code-block">
+                    <pre><code>const authMiddleware = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+app.get('/dashboard', authMiddleware, (req, res) => {
+    res.render('dashboard.html');
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="payment" class="doc-section">
+                <h2>💰 支付宝支付</h2>
+                <p>New.js 内置了完整的支付宝支付集成，支持即时到账、扫码支付等功能。</p>
+                
+                <h3>配置支付宝</h3>
+                <div class="code-block">
+                    <pre><code>// 配置支付宝参数
+app.alipay.init({
+    appId: 'your-app-id',
+    privateKey: 'your-private-key',
+    publicKey: 'alipay-public-key',
+    notifyUrl: 'https://yourdomain.com/api/alipay/notify',
+    returnUrl: 'https://yourdomain.com/payment/success'
+});</code></pre>
+                </div>
+
+                <h3>创建支付订单</h3>
+                <div class="code-block">
+                    <pre><code>app.post('/api/payment/create', async (req, res) => {
+    const { amount, subject } = req.body;
+    
+    const result = await app.alipay.createOrder({
+        orderId: 'ORDER_' + Date.now(),
+        amount: amount,
+        subject: subject,
+        body: '商品描述'
+    });
+    
+    res.json({
+        success: true,
+        payUrl: result.payUrl
+    });
+});</code></pre>
+                </div>
+
+                <h3>处理支付回调</h3>
+                <div class="code-block">
+                    <pre><code>app.post('/api/alipay/notify', async (req, res) => {
+    const verified = app.alipay.verifyNotify(req.body);
+    
+    if (verified && req.body.trade_status === 'TRADE_SUCCESS') {
+        // 更新订单状态
+        await updateOrderStatus(req.body.out_trade_no, 'paid');
+        res.send('success');
+    } else {
+        res.send('fail');
+    }
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="websocket" class="doc-section">
+                <h2>🔌 WebSocket</h2>
+                <p>New.js 内置 WebSocket 支持，实现实时双向通信。</p>
+                
+                <div class="code-block">
+                    <pre><code>// WebSocket 连接处理
+app.websocket.onConnection((ws, req) => {
+    console.log('新客户端连接');
+    
+    ws.on('message', (message) => {
+        console.log('收到消息:', message);
+        // 广播消息
+        app.websocket.broadcast(message);
+    });
+    
+    ws.send('连接成功！');
+});
+
+// 发送消息到所有客户端
+app.websocket.broadcast('系统通知：服务器重启');</code></pre>
+                </div>
+            </div>
+
+            <div id="database" class="doc-section">
+                <h2>💾 数据库操作</h2>
+                <p>New.js 内置 SQLite 支持，并提供 ORM 模型。</p>
+                
+                <h3>原始查询</h3>
+                <div class="code-block">
+                    <pre><code>// 查询数据
+const users = await app.db.query('SELECT * FROM users WHERE age > ?', [18]);
+
+// 执行更新
+await app.db.execute('UPDATE users SET status = ? WHERE id = ?', ['active', 1]);</code></pre>
+                </div>
+
+                <h3>使用模型</h3>
+                <div class="code-block">
+                    <pre><code>// 定义模型
+const User = app.db.model('users', {
+    username: 'string',
+    email: 'string',
+    age: 'number'
+});
+
+// 创建用户
+const userId = await User.create({
+    username: 'john',
+    email: 'john@example.com',
+    age: 25
+});
+
+// 查询用户
+const user = await User.find(userId);
+const activeUsers = await User.where({ status: 'active' });</code></pre>
+                </div>
+            </div>
+
+            <div id="session" class="doc-section">
+                <h2>🔐 会话管理</h2>
+                <p>New.js 提供内置的会话管理功能。</p>
+                
+                <div class="code-block">
+                    <pre><code>// 设置会话
+app.post('/login', (req, res) => {
+    req.session.user = {
+        id: 1,
+        username: 'john'
+    };
+    res.json({ success: true });
+});
+
+// 读取会话
+app.get('/profile', (req, res) => {
+    const user = req.session.user;
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(401).json({ error: '未登录' });
+    }
+});
+
+// 销毁会话
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="request-response" class="doc-section">
+                <h2>📨 请求和响应</h2>
+                
+                <h3>Request 对象</h3>
+                <div class="code-block">
+                    <pre><code>app.get('/example', (req, res) => {
+    // 查询参数
+    const { page, limit } = req.query;
+    
+    // 路由参数
+    const { id } = req.params;
+    
+    // 请求体
+    const data = req.body;
+    
+    // 请求头
+    const token = req.headers.authorization;
+    
+    // Cookies
+    const sessionId = req.cookies.sessionId;
+});</code></pre>
+                </div>
+
+                <h3>Response 对象</h3>
+                <div class="code-block">
+                    <pre><code>app.get('/response', (req, res) => {
+    // JSON 响应
+    res.json({ message: 'Hello' });
+    
+    // HTML 响应
+    res.html('&lt;h1&gt;Hello&lt;/h1&gt;');
+    
+    // 重定向
+    res.redirect('/home');
+    
+    // 设置 Cookie
+    res.setCookie('token', 'abc123', { maxAge: 3600 });
+    
+    // 发送文件
+    res.sendFile('/path/to/file.pdf');
+    
+    // 下载文件
+    res.download('/path/to/file.pdf', 'filename.pdf');
+});</code></pre>
+                </div>
+            </div>
+
+            <div id="deployment" class="doc-section">
+                <h2>🚢 生产环境部署</h2>
+                
+                <h3>使用 PM2 部署</h3>
+                <div class="code-block">
+                    <pre><code># 安装 PM2
+npm install -g pm2
+
+# 启动应用
+pm2 start app/main.njs --name newjs-app
+
+# 设置开机自启
+pm2 startup
+pm2 save</code></pre>
+                </div>
+
+                <h3>使用 Docker 部署</h3>
+                <div class="code-block">
+                    <pre><code># Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3000
+CMD ["node", "app/main.njs"]</code></pre>
+                </div>
+            </div>
+
+            <div id="performance" class="doc-section">
+                <h2>⚡ 性能优化</h2>
+                
+                <h3>启用集群模式</h3>
+                <div class="code-block">
+                    <pre><code>const app = new New({
+    config: {
+        cluster: true,  // 启用集群模式
+        compress: true,  // 启用压缩
+        cache: true      // 启用缓存
+    }
+});</code></pre>
+                </div>
+
+                <div class="tip-box">
+                    💡 <strong>优化建议</strong>：
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>使用 Redis 作为会话存储</li>
+                        <li>启用静态文件缓存</li>
+                        <li>使用 CDN 加速静态资源</li>
+                        <li>启用 Gzip 压缩</li>
+                        <li>使用数据库连接池</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links" style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem;">
+                <a href="/" style="color: #999; text-decoration: none;">首页</a>
+                <a href="/docs.html" style="color: #999; text-decoration: none;">文档</a>
+                <a href="/download.html" style="color: #999; text-decoration: none;">下载</a>
+                <a href="https://github.com/deeplearning-corporation/node-js" target="_blank" style="color: #999; text-decoration: none;">GitHub</a>
+            </div>
+            <p>© 2024 New.js - 开源 MIT 协议 | 由 deeplearning-corporation 维护</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动和导航高亮
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // 更新URL hash
+                    history.pushState(null, null, `#${targetId}`);
+                    
+                    // 更新激活状态
+                    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+        // 滚动时更新侧边栏激活状态
+        const sections = document.querySelectorAll('.doc-section');
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => observer.observe(section));
+        
+        // 页面加载时处理hash
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
