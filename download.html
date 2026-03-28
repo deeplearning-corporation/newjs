@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="下载 New.js - 现代化Node.js后端框架，支持Linux和Windows平台">
+    <title>下载 New.js - 最新版本 | New.js 官方下载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: transform 0.3s !important;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 3rem;
+        }
+
+        .download-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .download-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .download-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .os-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .download-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .file-size {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .download-btn-card {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .download-btn-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .releases-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .releases-section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .release-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem;
+            transition: background 0.3s;
+        }
+
+        .release-item:hover {
+            background: #f8f9fa;
+        }
+
+        .release-version {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .release-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-left: 1rem;
+        }
+
+        .release-notes {
+            color: #666;
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+        }
+
+        .release-notes ul {
+            margin-left: 1.5rem;
+        }
+
+        .release-link {
+            color: #667eea;
+            text-decoration: none;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .release-link:hover {
+            text-decoration: underline;
+        }
+
+        .install-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .install-section h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .install-section h3 {
+            margin: 1.5rem 0 0.5rem 0;
+            color: #667eea;
+        }
+
+        .install-code {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .install-code code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: #999;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .download-header h1 {
+                font-size: 2rem;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">New.js</a>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/docs.html">文档</a>
+                <a href="/download.html">下载</a>
+                <a href="https://github.com/deeplearning-corporation/node-js" target="_blank">GitHub</a>
+                <a href="/download.html" class="download-btn">立即下载</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="download-header">
+            <div class="version-badge">最新版本 v2.0.0</div>
+            <h1>📦 下载 New.js</h1>
+            <p>选择适合您操作系统的版本开始使用</p>
+        </div>
+
+        <div class="download-grid">
+            <!-- Windows 版本 -->
+            <div class="download-card" data-os="windows">
+                <div class="os-icon">🪟</div>
+                <h3>Windows</h3>
+                <p>Windows 10/11, Windows Server 2019/2022</p>
+                <div class="file-size">安装包大小: 25.6 MB</div>
+                <a href="https://github.com/deeplearning-corporation/node-js/releases/download/v2.0.0/New.js-Setup-2.0.0.exe" class="download-btn-card" target="_blank">⬇️ 下载 Windows 版</a>
+            </div>
+
+            <!-- Linux 版本 -->
+            <div class="download-card" data-os="linux">
+                <div class="os-icon">🐧</div>
+                <h3>Linux</h3>
+                <p>Ubuntu 20.04+, Debian 11+, CentOS 8+, RHEL 8+</p>
+                <div class="file-size">安装包大小: 18.7 MB</div>
+                <a href="https://github.com/deeplearning-corporation/node-js/releases/download/v2.0.0/New.js-2.0.0.tar.gz" class="download-btn-card" target="_blank">⬇️ 下载 Linux 版</a>
+            </div>
+        </div>
+
+        <div class="install-section">
+            <h2>📖 安装指南</h2>
+            
+            <h3>Windows 安装</h3>
+            <div class="install-code">
+                <code># 1. 下载 New.js-Setup-2.0.0.exe 安装包<br>
+# 2. 双击运行安装程序<br>
+# 3. 按照安装向导完成安装<br>
+# 4. 安装完成后，打开命令提示符或 PowerShell<br>
+# 5. 验证安装是否成功<br>
+newjs --version<br><br>
+# 创建新项目<br>
+newjs create my-app<br><br>
+# 运行项目<br>
+cd my-app<br>
+newjs run</code>
+            </div>
+            
+            <h3>Linux 安装</h3>
+            <div class="install-code">
+                <code># 方法一：使用 wget 下载并安装<br>
+wget https://github.com/deeplearning-corporation/node-js/releases/download/v2.0.0/New.js-2.0.0.tar.gz<br>
+tar -xzf New.js-2.0.0.tar.gz<br>
+cd New.js-2.0.0<br>
+sudo ./install.sh<br><br>
+# 方法二：使用 curl 下载<br>
+curl -L https://github.com/deeplearning-corporation/node-js/releases/download/v2.0.0/New.js-2.0.0.tar.gz | tar xz<br>
+cd New.js-2.0.0<br>
+sudo make install<br><br>
+# 验证安装<br>
+newjs --version<br><br>
+# 创建新项目<br>
+newjs create my-app<br>
+cd my-app<br>
+newjs run</code>
+            </div>
+            
+            <h3>使用 npm 安装（所有平台）</h3>
+            <div class="install-code">
+                <code># 全局安装 New.js<br>
+npm install -g newjs<br><br>
+# 创建新项目<br>
+newjs create my-app<br><br>
+# 进入项目目录<br>
+cd my-app<br><br>
+# 安装依赖<br>
+npm install<br><br>
+# 运行项目<br>
+newjs run<br><br>
+# 或使用 npm<br>
+npm start</code>
+            </div>
+
+            <h3>从源码构建</h3>
+            <div class="install-code">
+                <code># 克隆仓库<br>
+git clone https://github.com/deeplearning-corporation/node-js.git<br>
+cd node-js<br><br>
+# 安装依赖<br>
+npm install<br><br>
+# 构建<br>
+npm run build<br><br>
+# 链接到全局<br>
+npm link</code>
+            </div>
+        </div>
+
+        <div class="releases-section">
+            <h2>📋 版本历史</h2>
+            <div id="releases-list">
+                <div class="release-item">
+                    <div class="release-version">
+                        v2.0.0 
+                        <span class="release-date">2024-01-15</span>
+                    </div>
+                    <div class="release-notes">
+                        <ul>
+                            <li>✨ 新增支付宝支付完整集成</li>
+                            <li>✨ 新增 WebSocket 实时通信支持</li>
+                            <li>✨ 新增页面跳转中间件</li>
+                            <li>✨ 新增集群模式支持</li>
+                            <li>🔧 优化路由性能，提升30%响应速度</li>
+                            <li>🐛 修复会话管理已知问题</li>
+                            <li>📝 完善文档和示例代码</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/deeplearning-corporation/node-js/releases/tag/v2.0.0" class="release-link" target="_blank">查看详情 →</a>
+                </div>
+
+                <div class="release-item">
+                    <div class="release-version">
+                        v1.5.0 
+                        <span class="release-date">2023-12-01</span>
+                    </div>
+                    <div class="release-notes">
+                        <ul>
+                            <li>✨ 新增数据库 ORM 模型</li>
+                            <li>✨ 新增缓存系统支持 Redis</li>
+                            <li>✨ 新增中间件热重载</li>
+                            <li>🔧 改进错误处理机制</li>
+                            <li>🐛 修复静态文件服务bug</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/deeplearning-corporation/node-js/releases/tag/v1.5.0" class="release-link" target="_blank">查看详情 →</a>
+                </div>
+
+                <div class="release-item">
+                    <div class="release-version">
+                        v1.4.0 
+                        <span class="release-date">2023-11-15</span>
+                    </div>
+                    <div class="release-notes">
+                        <ul>
+                            <li>✨ 新增文件上传支持</li>
+                            <li>✨ 新增日志系统</li>
+                            <li>🔧 优化路由匹配算法</li>
+                            <li>📝 增加API文档</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/deeplearning-corporation/node-js/releases/tag/v1.4.0" class="release-link" target="_blank">查看详情 →</a>
+                </div>
+
+                <div class="release-item">
+                    <div class="release-version">
+                        v1.3.0 
+                        <span class="release-date">2023-10-30</span>
+                    </div>
+                    <div class="release-notes">
+                        <ul>
+                            <li>✨ 新增会话管理</li>
+                            <li>✨ 新增CSRF防护</li>
+                            <li>🔧 改进安全性</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/deeplearning-corporation/node-js/releases/tag/v1.3.0" class="release-link" target="_blank">查看详情 →</a>
+                </div>
+
+                <div class="release-item">
+                    <div class="release-version">
+                        v1.0.0 
+                        <span class="release-date">2023-10-15</span>
+                    </div>
+                    <div class="release-notes">
+                        <ul>
+                            <li>🎉 首次正式发布</li>
+                            <li>✨ 基础路由和中间件系统</li>
+                            <li>✨ 静态文件服务</li>
+                            <li>✨ 模板引擎支持</li>
+                            <li>✨ 支持 .njs 文件扩展名</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/deeplearning-corporation/node-js/releases/tag/v1.0.0" class="release-link" target="_blank">查看详情 →</a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="https://github.com/deeplearning-corporation/node-js/releases" class="release-link" target="_blank" style="font-size: 1rem; display: inline-block; padding: 0.5rem 1.5rem; background: #f0f0f0; border-radius: 50px;">查看所有版本 →</a>
+            </div>
+        </div>
+
+        <!-- 系统要求 -->
+        <div class="install-section" style="margin-top: 2rem;">
+            <h2>💻 系统要求</h2>
+            
+            <h3>Windows</h3>
+            <div class="install-code">
+                <code>• Windows 10 (版本 1809 或更高) / Windows 11<br>
+• Windows Server 2019 / 2022<br>
+• 64位处理器<br>
+• 至少 2GB RAM<br>
+• 500MB 可用磁盘空间</code>
+            </div>
+            
+            <h3>Linux</h3>
+            <div class="install-code">
+                <code>• Ubuntu 20.04 / 22.04 / 24.04<br>
+• Debian 11 / 12<br>
+• CentOS 8 / Stream 9<br>
+• RHEL 8 / 9<br>
+• Fedora 38 / 39<br>
+• 64位处理器<br>
+• 至少 1GB RAM<br>
+• 300MB 可用磁盘空间</code>
+            </div>
+            
+            <h3>通用要求</h3>
+            <div class="install-code">
+                <code>• Node.js 16.0 或更高版本（如果使用npm安装）<br>
+• npm 7.0 或更高版本<br>
+• 支持 ES6+ 的现代浏览器（用于开发）</code>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">首页</a>
+                <a href="/docs.html">文档</a>
+                <a href="/download.html">下载</a>
+                <a href="https://github.com/deeplearning-corporation/node-js" target="_blank">GitHub</a>
+                <a href="https://github.com/deeplearning-corporation/node-js/issues" target="_blank">Issues</a>
+                <a href="https://github.com/deeplearning-corporation/node-js/releases" target="_blank">Releases</a>
+            </div>
+            <p>© 2024 New.js - 开源 MIT 协议 | 由 deeplearning-corporation 维护</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                <a href="https://github.com/deeplearning-corporation/node-js/releases" target="_blank" style="color: #667eea;">GitHub Releases</a> | 
+                <a href="https://github.com/deeplearning-corporation/node-js" target="_blank" style="color: #667eea;">项目主页</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 检测操作系统并高亮推荐版本
+        function detectOS() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let os = '';
+            
+            if (userAgent.indexOf('win') > -1) {
+                os = 'windows';
+            } else if (userAgent.indexOf('linux') > -1) {
+                os = 'linux';
+            }
+            
+            if (os) {
+                const card = document.querySelector(`[data-os="${os}"]`);
+                if (card) {
+                    card.style.border = '3px solid #667eea';
+                    card.style.transform = 'scale(1.02)';
+                    card.style.boxShadow = '0 10px 30px rgba(102,126,234,0.3)';
+                    
+                    // 添加推荐标签
+                    const badge = document.createElement('div');
+                    badge.style.cssText = `
+                        position: absolute;
+                        top: -10px;
+                        right: -10px;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        padding: 5px 12px;
+                        border-radius: 50px;
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                    `;
+                    badge.textContent = '推荐';
+                    card.style.position = 'relative';
+                    card.appendChild(badge);
+                }
+            }
+        }
+        
+        // 下载统计
+        function trackDownload(os, version) {
+            console.log(`Download tracked: ${os} - ${version}`);
+            // 这里可以发送统计数据到服务器
+            // 例如: fetch('/api/download/track', { method: 'POST', body: JSON.stringify({ os, version }) })
+        }
+        
+        // 添加下载事件监听
+        document.querySelectorAll('.download-btn-card').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const card = this.closest('.download-card');
+                const os = card ? card.dataset.os : 'unknown';
+                const version = 'v2.0.0';
+                trackDownload(os, version);
+                
+                // 显示下载提示
+                setTimeout(() => {
+                    console.log(`开始下载 New.js ${version} for ${os}`);
+                }, 100);
+            });
+        });
+        
+        // 页面加载完成后执行
+        window.addEventListener('load', () => {
+            detectOS();
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
